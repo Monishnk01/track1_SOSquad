@@ -2,25 +2,43 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+  --primary: #0d47a1; /* High contrast primary */
+  --primary-foreground: #ffffff;
+  --focus-ring: #d50000; /* Distinct focus color */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121212;
+    --foreground: #ffffff;
+    --primary: #82b1ff;
+    --primary-foreground: #000000;
+    --focus-ring: #ffea00;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-focus: var(--focus-ring);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 110%; /* Slightly larger base font for readability */
+}
+
+*:focus-visible {
+  outline: 4px solid var(--focus-ring) !important;
+  outline-offset: 4px !important;
+}
+
+/* Ensure images have no color-only meaning */
+.accessible-border {
+  border: 2px solid var(--foreground);
 }
