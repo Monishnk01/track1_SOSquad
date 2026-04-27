@@ -29,7 +29,8 @@ export default function GlobalReminder() {
             
             // Web Audio API chime
             try {
-              const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+              const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
+              const audioCtx = new AudioContextClass();
               const oscillator = audioCtx.createOscillator();
               oscillator.type = "sine";
               oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // A4
@@ -46,7 +47,7 @@ export default function GlobalReminder() {
             }
             
             // Ensure screen reader grabs this immediately
-            const msg = new SpeechSynthesisUtterance("Reminder: " + upcoming.message);
+            const msg = new SpeechSynthesisUtterance("Medical Reminder: " + upcoming.message);
             window.speechSynthesis.speak(msg);
 
             // Remove it from storage so it doesn't loop in the same minute
@@ -57,7 +58,7 @@ export default function GlobalReminder() {
           console.error("Error parsing reminders", e);
         }
       }
-    }, 30000); // Check every 30 seconds
+    }, 10000); // Check every 10 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -66,27 +67,38 @@ export default function GlobalReminder() {
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-6"
       role="alertdialog"
       aria-modal="true"
       aria-labelledby="reminder-title"
       aria-describedby="reminder-desc"
     >
-      <div className="bg-background text-foreground accessible-border p-8 rounded-2xl max-w-lg w-full text-center space-y-6">
-        <h2 id="reminder-title" className="text-3xl font-bold uppercase tracking-wider text-primary">
-          Medical Reminder
-        </h2>
-        <p id="reminder-desc" className="text-2xl font-medium">
-          {activeReminder.message}
-        </p>
+      <div className="bg-gray-900 border-8 border-yellow-400 p-12 rounded-[40px] max-w-2xl w-full text-center space-y-8 shadow-[0_0_100px_rgba(250,204,21,0.3)] animate-in fade-in zoom-in duration-500">
+        <div className="flex flex-col items-center gap-4">
+          <span className="text-8xl animate-bounce" aria-hidden="true">🔔</span>
+          <h2 id="reminder-title" className="text-5xl font-black uppercase tracking-tighter text-yellow-400">
+            Health Reminder
+          </h2>
+        </div>
+        
+        <div className="bg-gray-800 p-8 rounded-3xl border-4 border-gray-700">
+          <p id="reminder-desc" className="text-4xl font-bold text-white leading-tight">
+            {activeReminder.message}
+          </p>
+          <p className="text-2xl text-yellow-200 mt-4 uppercase font-black">
+            Scheduled for {activeReminder.time}
+          </p>
+        </div>
+
         <button 
           onClick={() => setActiveReminder(null)}
-          className="bg-primary text-primary-foreground text-2xl font-bold py-4 px-8 rounded flex-1 w-full hover:opacity-90 active:scale-95 transition-all"
-          aria-label="Acknowledge and dismiss reminder"
+          className="bg-yellow-400 text-black text-4xl font-black py-8 px-12 rounded-3xl w-full hover:bg-yellow-300 active:scale-95 transition-all shadow-2xl border-b-8 border-yellow-600"
+          aria-label="Acknowledge and dismiss health reminder"
         >
-          Acknowledge
+          DISMISS REMINDER
         </button>
       </div>
     </div>
   );
 }
+

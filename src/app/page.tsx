@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -39,6 +39,7 @@ export default function LoginPage() {
         <h1 
           className="text-4xl md:text-5xl font-black mb-8 text-center"
           onFocus={() => speakText("Welcome to Sahayak. Please sign in.")}
+          onMouseEnter={() => speakText("Welcome to Sahayak. Please sign in.")}
           tabIndex={0}
         >
           Sign In
@@ -59,7 +60,8 @@ export default function LoginPage() {
               type="text" 
               required
               className="w-full text-2xl p-4 accessible-border rounded bg-background text-foreground"
-              onFocus={() => speakText("Enter username or phone number")}
+              onFocus={() => speakText("Enter username")}
+              onMouseEnter={() => speakText("Enter username")}
               aria-required="true"
             />
           </div>
@@ -78,6 +80,7 @@ export default function LoginPage() {
               required
               className="w-full text-2xl p-4 accessible-border rounded bg-background text-foreground"
               onFocus={() => speakText("Enter password")}
+              onMouseEnter={() => speakText("Enter password")}
               aria-required="true"
             />
           </div>
@@ -86,6 +89,7 @@ export default function LoginPage() {
             type="submit" 
             className="w-full bg-primary text-primary-foreground text-3xl font-bold py-6 rounded-lg transition-transform hover:scale-[1.02] active:scale-95"
             onFocus={() => speakText("Sign in Button. Press Enter to submit.")}
+            onMouseEnter={() => speakText("Sign in Button")}
             aria-label="Sign In"
           >
             Sign In
